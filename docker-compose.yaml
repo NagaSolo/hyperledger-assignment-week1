@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+
+  simple-exercise-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: simple-exe
+    container_name: simple-exercise-app
+    depends_on:
+      - mongo
+    ports:
+      - "9944:8485"
+    volumes:
+      - simple-exe-data:/node_modules
+    networks:
+      - simple-exe-tier
+  
+  mongo:
+    image: mongo:latest
+    volumes:
+      - simple-exe-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - simple-exe-tier
+
+volumes:
+  simple-exe-data:
+
+networks:
+  simple-exe-tier:
